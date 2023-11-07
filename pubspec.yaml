@@ -25,6 +25,9 @@ dependencies:
   shared_preferences: ^2.2.1
   # the annotation package containing @riverpod
   riverpod_annotation: 2.1.6
+  freezed_annotation: ">=2.2.0"
+  json_annotation: ^4.8.1
+  watcher: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +43,8 @@ dev_dependencies:
   riverpod_lint: 2.1.1
   # import custom_lint too as riverpod_lint depends on it
   custom_lint: 0.5.3
+  json_serializable: ">=6.5.4"
+  freezed: ">=2.2.1"
 
 flutter:
   uses-material-design: true
