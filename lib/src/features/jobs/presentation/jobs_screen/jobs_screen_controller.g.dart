@@ -7,7 +7,7 @@ part of 'jobs_screen_controller.dart';
 // **************************************************************************
 
 String _$jobsScreenControllerHash() =>
-    r'e3a40258404cf512fd12924d8f0a485f75d7d6fb';
+    r'9853f73789a0c11ad867cde259c05e4ff71bd8c2';
 
 /// See also [JobsScreenController].
 @ProviderFor(JobsScreenController)
@@ -23,4 +23,5 @@ final jobsScreenControllerProvider =
 );
 
 typedef _$JobsScreenController = AutoDisposeAsyncNotifier<void>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -3,18 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:starter_architecture_flutter_firebase/src/common_widgets/async_value_widget.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/jobs/data/jobs_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job_model.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/job_entries_screen/job_entries_list.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
 
 class JobEntriesScreen extends ConsumerWidget {
   const JobEntriesScreen({super.key, required this.jobId});
-  final JobID jobId;
+  final String jobId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jobAsync = ref.watch(jobStreamProvider(jobId));
-    return ScaffoldAsyncValueWidget<Job>(
+    return ScaffoldAsyncValueWidget<JobModel>(
       value: jobAsync,
       data: (job) => JobEntriesPageContents(job: job),
     );
@@ -23,7 +23,7 @@ class JobEntriesScreen extends ConsumerWidget {
 
 class JobEntriesPageContents extends StatelessWidget {
   const JobEntriesPageContents({super.key, required this.job});
-  final Job job;
+  final JobModel job;
 
   @override
   Widget build(BuildContext context) {

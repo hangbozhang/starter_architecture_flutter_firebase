@@ -8,8 +8,8 @@ import 'package:starter_architecture_flutter_firebase/src/features/entries/domai
 import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry_job.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/jobs/data/jobs_repository.dart';
 import 'package:starter_architecture_flutter_firebase/src/utils/format.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry_model.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job_model.dart';
 
 part 'entries_service.g.dart';
 
@@ -29,9 +29,9 @@ class EntriesService {
       );
 
   static List<EntryJob> _entriesJobsCombiner(
-      List<Entry> entries, List<Job> jobs) {
+      List<EntryModel> entries, List<JobModel> jobs) {
     return entries.map((entry) {
-      final job = jobs.firstWhere((job) => job.id == entry.jobId);
+      final job = jobs.firstWhere((job) => job.id == entry.jobID);
       return EntryJob(entry, job);
     }).toList();
   }

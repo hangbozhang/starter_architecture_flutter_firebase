@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:starter_architecture_flutter_firebase/src/constants/app_sizes.dart';
 import 'package:starter_architecture_flutter_firebase/src/utils/format.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry_model.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job_model.dart';
 
 class EntryListItem extends StatelessWidget {
   const EntryListItem({
@@ -12,8 +12,8 @@ class EntryListItem extends StatelessWidget {
     this.onTap,
   });
 
-  final Entry entry;
-  final Job job;
+  final EntryModel entry;
+  final JobModel job;
   final VoidCallback? onTap;
 
   @override
@@ -91,8 +91,8 @@ class DismissibleEntryListItem extends StatelessWidget {
   });
 
   final Key dismissibleKey;
-  final Entry entry;
-  final Job job;
+  final EntryModel entry;
+  final JobModel job;
   final VoidCallback? onDismissed;
   final VoidCallback? onTap;
 

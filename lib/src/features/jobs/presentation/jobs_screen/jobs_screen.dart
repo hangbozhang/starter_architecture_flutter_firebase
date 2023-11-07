@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:starter_architecture_flutter_firebase/src/constants/strings.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/jobs/data/jobs_repository.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job_model.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/jobs/presentation/jobs_screen/jobs_screen_controller.dart';
 import 'package:starter_architecture_flutter_firebase/src/routing/app_router.dart';
 import 'package:starter_architecture_flutter_firebase/src/utils/async_value_ui.dart';
@@ -31,7 +31,7 @@ class JobsScreen extends StatelessWidget {
             (_, state) => state.showAlertDialogOnError(context),
           );
           final jobsQuery = ref.watch(jobsQueryProvider);
-          return FirestoreListView<Job>(
+          return FirestoreListView<JobModel>(
             query: jobsQuery,
             emptyBuilder: (context) => const Center(child: Text('No data')),
             errorBuilder: (context, error, stackTrace) => Center(
@@ -67,7 +67,7 @@ class JobsScreen extends StatelessWidget {
 class JobListTile extends StatelessWidget {
   const JobListTile({Key? key, required this.job, this.onTap})
       : super(key: key);
-  final Job job;
+  final JobModel job;
   final VoidCallback? onTap;
 
   @override

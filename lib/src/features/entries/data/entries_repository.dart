@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:starter_architecture_flutter_firebase/src/features/authentication/domain/app_user.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry.dart';
-import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/entries/domain/entry_model.dart';
+import 'package:starter_architecture_flutter_firebase/src/features/jobs/domain/job_model.dart';
 
 class EntriesRepository {
   const EntriesRepository(this._firestore);
@@ -31,26 +31,35 @@ class EntriesRepository {
   // update
   Future<void> updateEntry({
     required UserID uid,
-    required Entry entry,
+    required EntryModel entry,
   }) =>
-      _firestore.doc(entryPath(uid, entry.id)).update(entry.toMap());
+      _firestore.doc(entryPath(uid, entry.id)).update(entry.toJson());
 
   // delete
   Future<void> deleteEntry({required UserID uid, required EntryID entryId}) =>
       _firestore.doc(entryPath(uid, entryId)).delete();
 
   // read
-  Stream<List<Entry>> watchEntries({required UserID uid, JobID? jobId}) =>
+  Stream<List<EntryModel>> watchEntries({required UserID uid, JobID? jobId}) =>
       queryEntries(uid: uid, jobId: jobId)
           .snapshots()
           .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
 
-  Query<Entry> queryEntries({required UserID uid, JobID? jobId}) {
-    Query<Entry> query =
-        _firestore.collection(entriesPath(uid)).withConverter<Entry>(
-              fromFirestore: (snapshot, _) =>
-                  Entry.fromMap(snapshot.data()!, snapshot.id),
-              toFirestore: (entry, _) => entry.toMap(),
+  Query<EntryModel> queryEntries({required UserID uid, JobID? jobId}) {
+    Query<EntryModel> query =
+        _firestore.collection(entriesPath(uid)).withConverter<EntryModel>(
+              fromFirestore: (snapshot, _) {
+                final data = snapshot.data()!;
+                return EntryModel(
+                  id: snapshot.id,
+                  jobID: data['jobId'] as String,
+                  start: DateTime.fromMillisecondsSinceEpoch(
+                      data['start'] as int),
+                  end: DateTime.fromMillisecondsSinceEpoch(data['end'] as int),
+                  comment: data['comment'] as String,
+                );
+              },
+              toFirestore: (entry, _) => entry.toJson(),
             );
     if (jobId != null) {
       query = query.where('jobId', isEqualTo: jobId);
@@ -64,7 +73,7 @@ final entriesRepositoryProvider = Provider<EntriesRepository>((ref) {
 });
 
 final jobEntriesQueryProvider =
-    Provider.autoDispose.family<Query<Entry>, JobID>((ref, jobId) {
+    Provider.autoDispose.family<Query<EntryModel>, JobID>((ref, jobId) {
   final user = ref.watch(firebaseAuthProvider).currentUser;
   if (user == null) {
     throw AssertionError('User can\'t be null when fetching jobs');
